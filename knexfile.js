@@ -4,41 +4,21 @@ module.exports = {
 
   development: {
     client: 'sqlite3',
+    useNullAsDefault: true,
     connection: {
-      filename: './api/data/recipes.db3'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
+      filename: './api/data/recipes.db3',
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      directory: './api/data/migrations',
+    },
+    seeds: {
+      directory: './api/data/seeds',
     },
     pool: {
-      min: 2,
-      max: 10
+      afterCreate: (conn, done) => {
+        // enforces foreign key constraints on SQLite, not needed for other DBMS
+        conn.run('PRAGMA foreign_keys = ON', done);
+      },    
     },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
   }
-
-};
+}
