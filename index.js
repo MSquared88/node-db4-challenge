@@ -2,4 +2,4 @@ const server = require('./api/server')
 
 const port = process.env.PORT || 8000
 
-server.listen(port, console.log(`\n server is listening on port ${port} \n`))
+server.listen(port, console.log(`\n **server is listening on port ${port}** \n`))
